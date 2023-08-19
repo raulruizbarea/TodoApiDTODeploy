@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/raulruizbarea/TodoApiDTODeploy/compare/v1.0.0...v1.1.0) (2023-08-19)
+
+
+### Features
+
+* :fire: test releaseplease ([3da39ab](https://github.com/raulruizbarea/TodoApiDTODeploy/commit/3da39abfb5e74742d9b17e1d1525206e2816bd62))
+
 ## 1.0.0 (2023-08-19)
 
 
