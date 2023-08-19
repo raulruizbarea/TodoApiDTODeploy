@@ -15,6 +15,7 @@ RUN dotnet publish -o /publish -r linux-x64 --self-contained true --no-restore /
 FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_ASPNET_VERSION} as production
 COPY --from=builder  /publish /app
 WORKDIR /app
+
 EXPOSE 80
 EXPOSE 443
 #If you’re using the Linux Container
