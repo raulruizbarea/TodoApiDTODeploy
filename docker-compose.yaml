@@ -9,16 +9,34 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DOTNET_SDK_VERSION: ${DOTNET_SDK_VERSION:?err}
+        DOTNET_ASPNET_VERSION: ${DOTNET_ASPNET_VERSION:?err}
     environment:
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://+:${DOTNET_APP_PORT_SSL:?err};http://+:${DOTNET_APP_PORT:?err}
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/dockerdemo.pfx
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass@*****
     volumes:
       - ./https:/https:ro
     ports:
-      - '5000:80'
-      - '443:443'
+      - '${DOTNET_APP_PORT_EXTERNAL:?err}:${DOTNET_APP_PORT:?err}'
+      - '${DOTNET_APP_PORT_SSL:?err}:${DOTNET_APP_PORT_SSL:?err}'
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '2'
+          memory: '2g'
+        reservations:
+          cpus: '1'
+          memory: '1g'
+    storage_opt:
+      size: '2g'
     networks:
       - todo-api-dto
 

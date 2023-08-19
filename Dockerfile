@@ -1,4 +1,7 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0 as builder
+ARG DOTNET_SDK_VERSION
+ARG DOTNET_ASPNET_VERSION
+
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK_VERSION} as builder
  
 WORKDIR /usr/src/todo-api-dto
 
@@ -9,7 +12,7 @@ COPY . ./
 RUN dotnet build -o /app -r linux-x64 /p:PublishReadyToRun=true
 RUN dotnet publish -o /publish -r linux-x64 --self-contained true --no-restore /p:PublishTrimmed=true /p:PublishReadyToRun=true /p:PublishSingleFile=true
  
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 as production
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_ASPNET_VERSION} as production
 COPY --from=builder  /publish /app
 WORKDIR /app
 EXPOSE 80
